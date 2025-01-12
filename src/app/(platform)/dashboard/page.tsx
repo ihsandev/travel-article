@@ -116,7 +116,7 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4 border border-sky-900">
           <CardHeader className="flex flex-row justify-between items-center">
             <CardTitle>Overview</CardTitle>
