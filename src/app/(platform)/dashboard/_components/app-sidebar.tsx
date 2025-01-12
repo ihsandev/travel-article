@@ -1,5 +1,10 @@
 "use client";
-import { Inbox, LayoutDashboard, ListCollapse } from "lucide-react";
+import {
+  Inbox,
+  LayoutDashboard,
+  ListCollapse,
+  MessageCircle,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -28,6 +33,11 @@ const items = [
     title: "Articles",
     url: "/dashboard/articles",
     icon: Inbox,
+  },
+  {
+    title: "Comments",
+    url: "/dashboard/comments",
+    icon: MessageCircle,
   },
   {
     title: "Categories",

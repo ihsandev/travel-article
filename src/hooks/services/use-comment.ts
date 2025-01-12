@@ -1,5 +1,10 @@
 import { fetchData } from "@/lib/api";
-import { MutationOptions, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  MutationOptions,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 type CommentPayload = {
@@ -10,11 +15,21 @@ type CommentPayload = {
   };
 };
 
+export type CommentQueryParams = {
+  "pagination[page]"?: number;
+  "pagination[pageSize]"?: number;
+  "populate[article]"?: string;
+  "sort[0]"?: string;
+  "populate[user]?": string;
+};
+
 const FETCH_COMMENTS_KEY = "fetch-comments";
 export function useComment({
+  params,
   enabledComments = false,
   mutationOptions,
 }: Readonly<{
+  params?: CommentQueryParams;
   enabledComments?: boolean;
   mutationOptions?: MutationOptions<
     CommentPayload,
@@ -27,6 +42,28 @@ export function useComment({
     queryKey: [FETCH_COMMENTS_KEY],
     queryFn: () => {
       return fetchData({ method: "get", endpoint: "/comments" });
+    },
+    enabled: enabledComments,
+  });
+
+  const infiniteComments = useInfiniteQuery({
+    queryKey: [FETCH_COMMENTS_KEY, params],
+    queryFn: ({ pageParam }) => {
+      return fetchData({
+        endpoint: "/comments",
+        method: "get",
+        params: {
+          ...params,
+          "pagination[page]": pageParam ?? 1,
+        },
+        type: "infinite",
+      });
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const totalFetched = lastPage.page * lastPage.pageSize;
+      const hasMore = totalFetched < lastPage.total;
+      return hasMore ? lastPage.page + 1 : undefined;
     },
     enabled: enabledComments,
   });
@@ -70,6 +107,7 @@ export function useComment({
 
   return {
     comments,
+    infiniteComments,
     createComment,
     deleteComment,
     updateComment,
