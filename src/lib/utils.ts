@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -14,4 +15,21 @@ export function handleError(error: any) {
   }
 
   throw new Error("Unknown Error");
+}
+
+export function formatDate(date: string) {
+  const options: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  };
+  return new Date(date).toLocaleDateString("en-US", options);
+}
+
+export function toastError(message: string) {
+  toast({
+    title: "Error",
+    description: message ?? "Something went wrong",
+    variant: "destructive",
+  });
 }

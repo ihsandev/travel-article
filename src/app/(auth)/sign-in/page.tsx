@@ -3,17 +3,17 @@
 import { InputField } from "@/components/form/input-field";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/services/use-auth";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Lock, User } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Lock, User } from "lucide-react";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 
 const signInSchema = z.object({
   identifier: z.string().min(1, "Username is required"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
+  password: z.string().min(4, "Password must be at least 4 characters long"),
 });
 
 type SignInSchema = z.infer<typeof signInSchema>;

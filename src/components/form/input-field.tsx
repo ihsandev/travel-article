@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { Textarea } from "../ui/textarea";
 
 interface InputFieldProps {
   name: string;
@@ -11,6 +12,8 @@ interface InputFieldProps {
   iconRight?: React.ReactNode;
   label?: string;
   error?: string;
+  formType?: "textarea" | "input";
+  rows?: number;
   className?: string;
 }
 
@@ -23,6 +26,8 @@ export function InputField({
   iconLeft,
   iconRight,
   error,
+  formType,
+  rows,
   className,
   ...props
 }: Readonly<InputFieldProps>) {
@@ -42,29 +47,48 @@ export function InputField({
             {iconLeft}
           </span>
         )}
-        <Input
-          name={name}
-          type={type}
-          required={required}
-          placeholder={placeholder}
-          className={cn(
-            "rounded-full px-3 h-10 focus-visible:ring-0 focus-visible:ring-offset-0",
-            iconLeft && "pl-9",
-            iconRight && "pr-9",
-            error && "border-rose-500",
-            className
-          )}
-          {...props}
-        />
-        {iconRight && (
-          <span
+        {formType === "textarea" ? (
+          <Textarea
+            name={name}
+            required={required}
+            placeholder={placeholder}
+            rows={rows}
             className={cn(
-              "absolute right-3 text-slate-400",
-              error && "text-rose-500"
+              "rounded-full px-3 h-10 focus-visible:ring-0 focus-visible:ring-offset-0",
+              iconLeft && "pl-9",
+              iconRight && "pr-9",
+              error && "border-rose-500",
+              className
             )}
-          >
-            {iconRight}
-          </span>
+            {...props}
+          />
+        ) : (
+          <>
+            <Input
+              name={name}
+              type={type}
+              required={required}
+              placeholder={placeholder}
+              className={cn(
+                "rounded-full px-3 h-10 focus-visible:ring-0 focus-visible:ring-offset-0",
+                iconLeft && "pl-9",
+                iconRight && "pr-9",
+                error && "border-rose-500",
+                className
+              )}
+              {...props}
+            />
+            {iconRight && (
+              <span
+                className={cn(
+                  "absolute right-3 text-slate-400",
+                  error && "text-rose-500"
+                )}
+              >
+                {iconRight}
+              </span>
+            )}
+          </>
         )}
       </div>
       {error && <p className="text-rose-500 text-xs mt-1">{error}</p>}
