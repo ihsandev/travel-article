@@ -10,6 +10,18 @@ interface FetchDataOptions<TPayload, TParams> {
   type?: string;
 }
 
+/**
+ * A generic function to make API calls to the Strapi API.
+ *
+ * @param {FetchDataOptions<TPayload, TParams>} options - The options to make the API call.
+ * @returns {Promise<TPayload>} - The response from the API call.
+ *
+ * @example
+ * fetchData({
+ *   method: "get",
+ *   endpoint: "articles",
+ * })
+ */
 export const fetchData = async <TPayload, TParams>({
   method,
   endpoint,

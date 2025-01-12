@@ -5,9 +5,16 @@ import { Button } from "@/components/ui/button";
 import { useCredentials } from "@/hooks/use-credentials";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Hero() {
   const credentials = useCredentials();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <HeroBackground>
@@ -24,18 +31,20 @@ export default function Hero() {
               Join our community of travelers and share your experiences
             </p>
           </div>
-          <Link
-            href={credentials?.token ? "/dashboard" : "/sign-in"}
-            className="mt-8 block"
-          >
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-transparent border-2 border-sky-950 text-sky-950 px-14"
+          {mounted && (
+            <Link
+              href={credentials?.token ? "/dashboard" : "/sign-in"}
+              className="mt-8 block"
             >
-              {credentials?.token ? "Go to Dashboard" : "Sign In"}
-            </Button>
-          </Link>
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border-2 border-sky-950 text-sky-950 px-14"
+              >
+                {credentials?.token ? "Go to Dashboard" : "Sign In"}
+              </Button>
+            </Link>
+          )}
         </div>
         <div className="md:block hidden">
           <Image
