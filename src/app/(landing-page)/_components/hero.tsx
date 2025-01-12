@@ -41,7 +41,7 @@ export default function Hero() {
                 variant="outline"
                 className="bg-transparent border-2 border-sky-950 text-sky-950 px-14"
               >
-                {credentials?.token ? "Go to Dashboard" : "Sign In"}
+                {credentials?.token ? "Go to Dashboard" : "Get Started"}
               </Button>
             </Link>
           )}
